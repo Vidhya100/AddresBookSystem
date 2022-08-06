@@ -11,7 +11,7 @@
             Console.WriteLine("Do you want to add new contact press 1 or press 2 to cancle.");
             int num = Convert.ToInt32(Console.ReadLine());
 
-           
+
             while (num == 1)
             {
                 Contact contact1 = new Contact();
@@ -45,7 +45,7 @@
                 Console.WriteLine("Do you want to add anoter contact then press 1 or press 2 for exit ");
                 num = Convert.ToInt32(Console.ReadLine());
             }
-            Console.WriteLine("Total number of contact in address book:"+contactList.Count);
+            Console.WriteLine("Total number of contact in address book:" + contactList.Count);
 
             //print contacts
             Console.WriteLine("Current contacts in adress book:");
@@ -56,7 +56,7 @@
             }
 
             Console.WriteLine("Do you want to edit contact details then press 1 or pres 2 for continue: ");
-            num = Convert.ToInt32( Console.ReadLine());
+            num = Convert.ToInt32(Console.ReadLine());
 
             while (num == 1)
             {
@@ -107,8 +107,51 @@
                     Console.WriteLine(contact.firstName);
                 }
                 Console.WriteLine("Do you want to edit contact press 1 to edit or press 2 to cancle.");
-                 num = Convert.ToInt32(Console.ReadLine());
+                num = Convert.ToInt32(Console.ReadLine());
             }//while loop end
+
+
+
+            //deleting contact
+            Console.WriteLine("Do you want to delete contact press 1 to delete or press 2 to cancle.");
+            num = Convert.ToInt32(Console.ReadLine());
+
+            while (num == 1 && contactList.Count > 0)
+            {
+                Console.WriteLine("Enter contact First name");
+                string firstName = Console.ReadLine();
+
+                bool found = false;
+                for (int i = 0; i < contactList.Count; i++)
+                {
+
+                    if (contactList[i].firstName == firstName)
+                    {
+                        found = true;  //found the contact
+
+                        contactList.RemoveAt(i);
+                        break;
+
+                    }
+                }
+
+                if (found)
+                {
+                    if (contactList.Count == 0) //if size 0 nothing to delete further
+                        break;
+                }
+                else
+                    Console.WriteLine("the contact with given person '{0}' is not in address book", firstName);
+
+                Console.WriteLine("Current contacts in adress book");
+                foreach (Contact contact in contactList)
+                {
+                    Console.WriteLine(contact.firstName);
+                }
+                Console.WriteLine("Do you want to delete contact press 1 to delete or press 2 to cancle.");
+                num = Convert.ToInt32(Console.ReadLine());
+
+            }//while end
         }
     }
 }
