@@ -2,62 +2,71 @@
 {
     class Program
     {
-        //creating list of contact
-        public static List<Contact> contactList = new List<Contact>();
-        public static void Main(string[] args)
+        public static void FillingDetails(Contact contact)
         {
-            Console.WriteLine("Welcome to Address Book Sytem.");
+            Console.WriteLine("Enter first name: ");
+            contact.firstName = Console.ReadLine();
 
+            Console.WriteLine("Enter last name: ");
+            contact.lastName = Console.ReadLine();
+
+            Console.WriteLine("Enter address: ");
+            contact.address = Console.ReadLine();
+
+            Console.WriteLine("Enter city: ");
+            contact.city = Console.ReadLine();
+
+            Console.WriteLine("Enter state: ");
+            contact.state = Console.ReadLine();
+
+            Console.WriteLine("Enter phone: ");
+            contact.phone = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Enter email: ");
+            contact.email = Console.ReadLine();
+
+            Console.WriteLine("Enter zipcode: ");
+            contact.zipcode = Convert.ToInt32(Console.ReadLine());
+        }
+
+        public static void CreatingContacts()
+        {
             Console.WriteLine("Do you want to add new contact press 1 or press 2 to cancle.");
             int num = Convert.ToInt32(Console.ReadLine());
 
 
             while (num == 1)
             {
-                Contact contact1 = new Contact();
-                Console.WriteLine("Enter first name: ");
-                contact1.firstName = Console.ReadLine();
-
-                Console.WriteLine("Enter last name: ");
-                contact1.lastName = Console.ReadLine();
-
-                Console.WriteLine("Enter address: ");
-                contact1.address = Console.ReadLine();
-
-                Console.WriteLine("Enter city: ");
-                contact1.city = Console.ReadLine();
-
-                Console.WriteLine("Enter state: ");
-                contact1.state = Console.ReadLine();
-
-                Console.WriteLine("Enter phone: ");
-                contact1.phone = Convert.ToInt32(Console.ReadLine());
-
-                Console.WriteLine("Enter email: ");
-                contact1.email = Console.ReadLine();
-
-                Console.WriteLine("Enter zipcode: ");
-                contact1.zipcode = Convert.ToInt32(Console.ReadLine());
-
-
-                contactList.Add(contact1);
+                Contact contact = new Contact();
+                FillingDetails(contact);
+                contactList.Add(contact);
 
                 Console.WriteLine("Do you want to add anoter contact then press 1 or press 2 for exit ");
                 num = Convert.ToInt32(Console.ReadLine());
             }
+            Console.WriteLine("=============================================================");
             Console.WriteLine("Total number of contact in address book:" + contactList.Count);
+        }
 
+        public static void DisplayContacts()
+        {
             //print contacts
+
+            Console.WriteLine("=============================================================");
             Console.WriteLine("Current contacts in adress book:");
 
             foreach (Contact contact in contactList)
             {
                 Console.WriteLine(contact.firstName);
             }
+            Console.WriteLine("=============================================================");
 
+        }
+
+        public static void EditContacts()
+        {
             Console.WriteLine("Do you want to edit contact details then press 1 or pres 2 for continue: ");
-            num = Convert.ToInt32(Console.ReadLine());
-
+            int num = Convert.ToInt32(Console.ReadLine());
             while (num == 1)
             {
                 Console.WriteLine("Enter first name to edit details: ");
@@ -71,29 +80,7 @@
                         found = true;  //found the contact
 
                         //now editing...
-                        Console.WriteLine("Enter first name: ");
-                        contactList[i].firstName = Console.ReadLine();
-
-                        Console.WriteLine("Enter last name: ");
-                        contactList[i].lastName = Console.ReadLine();
-
-                        Console.WriteLine("Enter address: ");
-                        contactList[i].address = Console.ReadLine();
-
-                        Console.WriteLine("Enter city: ");
-                        contactList[i].city = Console.ReadLine();
-
-                        Console.WriteLine("Enter state: ");
-                        contactList[i].state = Console.ReadLine();
-
-                        Console.WriteLine("Enter phone: ");
-                        contactList[i].phone = Convert.ToInt32(Console.ReadLine());
-
-                        Console.WriteLine("Enter email: ");
-                        contactList[i].email = Console.ReadLine();
-
-                        Console.WriteLine("Enter zipcode: ");
-                        contactList[i].zipcode = Convert.ToInt32(Console.ReadLine());
+                        FillingDetails(contactList[i]);
                         break;
 
                     }
@@ -101,20 +88,18 @@
                 if (!found)
                     Console.WriteLine("the contact with given person {0} is not in address book", firstName);
                 //print contacts
-                Console.WriteLine("Current contacts in adress book");
-                foreach (Contact contact in contactList)
-                {
-                    Console.WriteLine(contact.firstName);
-                }
+                DisplayContacts();
                 Console.WriteLine("Do you want to edit contact press 1 to edit or press 2 to cancle.");
                 num = Convert.ToInt32(Console.ReadLine());
             }//while loop end
 
+        }
 
-
+        public static void DeleteContacts()
+        {
             //deleting contact
             Console.WriteLine("Do you want to delete contact press 1 to delete or press 2 to cancle.");
-            num = Convert.ToInt32(Console.ReadLine());
+            int num = Convert.ToInt32(Console.ReadLine());
 
             while (num == 1 && contactList.Count > 0)
             {
@@ -142,16 +127,24 @@
                 }
                 else
                     Console.WriteLine("the contact with given person '{0}' is not in address book", firstName);
-
-                Console.WriteLine("Current contacts in adress book");
-                foreach (Contact contact in contactList)
-                {
-                    Console.WriteLine(contact.firstName);
-                }
+                //displaying contacts
+                DisplayContacts();
                 Console.WriteLine("Do you want to delete contact press 1 to delete or press 2 to cancle.");
                 num = Convert.ToInt32(Console.ReadLine());
 
             }//while end
+        }
+
+        //creating list of contact
+        public static List<Contact> contactList = new List<Contact>();
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("Welcome to Address Book Sytem.");
+
+            CreatingContacts();
+            DisplayContacts();
+            EditContacts();
+            DeleteContacts();            
         }
     }
 }
