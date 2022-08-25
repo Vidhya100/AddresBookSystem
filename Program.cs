@@ -3,34 +3,35 @@
     class Program
     {
         
-        public static void FillingDetails(Contact contact)
+        public static void FillingDetails(Contact contacts)
         {
+
             Console.WriteLine("Enter first name: ");
-            contact.firstName = Console.ReadLine();
+            contacts.firstName = Console.ReadLine();
 
             Console.WriteLine("Enter last name: ");
-            contact.lastName = Console.ReadLine();
+            contacts.lastName = Console.ReadLine();
 
             Console.WriteLine("Enter address: ");
-            contact.address = Console.ReadLine();
+            contacts.address = Console.ReadLine();
 
             Console.WriteLine("Enter city: ");
-            contact.city = Console.ReadLine();
+            contacts.city = Console.ReadLine();
 
             Console.WriteLine("Enter state: ");
-            contact.state = Console.ReadLine();
+            contacts.state = Console.ReadLine();
 
             Console.WriteLine("Enter phone: ");
-            contact.phone = Convert.ToInt32(Console.ReadLine());
+            contacts.phone = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Enter email: ");
-            contact.email = Console.ReadLine();
+            contacts.email = Console.ReadLine();
 
             Console.WriteLine("Enter zipcode: ");
-            contact.zipcode = Convert.ToInt32(Console.ReadLine());
+            contacts.zipcode = Convert.ToInt32(Console.ReadLine());
         }
 
-        public static void CreatingContacts(List<Contact> contacts)
+        public static void CreatingContacts(List<Contact> contacts, string firstName)
         {
             Console.WriteLine("Do you want to add new contact press 1 or press 2 to cancle.");
             int num = Convert.ToInt32(Console.ReadLine());
@@ -39,14 +40,24 @@
             while (num == 1)
             {
                 Contact contact = new Contact();
-                FillingDetails(contact);
-                contacts.Add(contact);
+                bool duplicate = equals(contacts, firstName);
+                if(!duplicate)
+                {
+                    FillingDetails(contact);
+                    contacts.Add(contact);
+                }
+                else
+                    Console.WriteLine("Contact already available in system");
+
 
                 Console.WriteLine("Do you want to add anoter contact then press 1 or press 2 for exit ");
                 num = Convert.ToInt32(Console.ReadLine());
+                
+
             }
             Console.WriteLine("=============================================================");
             Console.WriteLine("Total number of contact in address book:" + contacts.Count);
+            
         }
 
         public static void DisplayContacts(List<Contact> contacts)
@@ -92,8 +103,18 @@
                 DisplayContacts(contacts);
                 Console.WriteLine("Do you want to edit contact press 1 to edit or press 2 to cancle.");
                 num = Convert.ToInt32(Console.ReadLine());
+                equals(contacts,firstName);
             }//while loop end
 
+        }
+
+        public static bool equals(List<Contact> contacts, string firstname)
+        {
+            if (contacts.Any(x => x.firstName == firstname))
+                return true;
+            else
+                return false;
+            
         }
 
         public static void DeleteContacts(List<Contact> contacts)
@@ -160,7 +181,7 @@
                 List<Contact> addressBook = new List<Contact>();
                 addressBookSystem.Add(name, addressBook);
 
-                CreatingContacts(addressBook);
+                CreatingContacts(addressBook,name);
 
                 if (addressBook.Count > 0)
                 {
@@ -179,8 +200,9 @@
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Address Book Sytem.");
-
+            
             CreateAddresBook();
+            
             DisplayDictionary();
             //DisplayContacts();
             //EditContacts();
