@@ -2,8 +2,34 @@
 {
     class Program
     {
-        
-        public static bool FillingDetails(Contact contact,List<Contact> contacts )
+        public static void SearchByCityOrState()
+        {
+
+            Console.WriteLine("Do you want to search city or state for contact then press 1 or press 2 for exit ");
+            int num = Convert.ToInt32(Console.ReadLine());
+            while (num == 1)
+            {
+
+
+                List<Contact> tempcontacts = new List<Contact>();
+                Console.WriteLine("Enter the city or state to search :");
+                string iCity = Console.ReadLine();
+
+                foreach (var kv in addressBookSystem)
+                {
+                    var list = kv.Value.Where(x => x.city.Equals(iCity)).ToList();
+                    tempcontacts.AddRange(list);
+                }
+                Console.WriteLine("Here are found persons : ");
+                foreach (Contact contact in tempcontacts)
+                {
+                    Console.WriteLine(contact.firstName);
+                }
+                Console.WriteLine("Do you want to search city or state for contact then press 1 or press 2 for exit ");
+                num = Convert.ToInt32(Console.ReadLine());
+            }
+        }
+        public static bool FillingDetails(Contact contact, List<Contact> contacts)
         {
             Console.WriteLine("Enter first name: ");
             string tempFirstname = Console.ReadLine();
@@ -47,9 +73,9 @@
             while (num == 1)
             {
                 Contact contact = new Contact();
-                
-                if(FillingDetails(contact, contacts))
-                  contacts.Add(contact);
+
+                if (FillingDetails(contact, contacts))
+                    contacts.Add(contact);
 
                 Console.WriteLine("Do you want to add anoter contact then press 1 or press 2 for exit ");
                 num = Convert.ToInt32(Console.ReadLine());
@@ -64,13 +90,13 @@
             //Any will check for duplicate same firstnamename in database
             if (contacts.Count > 0)
             {
-                
+
                 if (contacts.Any(x => x.firstName.Equals(firstName)))
                 {
                     Console.WriteLine("Already exist in database");
                     return true;
                 }
-                
+
 
             }
             return false;
@@ -107,7 +133,7 @@
                         found = true;  //found the contact
 
                         //now editing...
-                        if(!FillingDetails(contacts[i], contacts));
+                        if (!FillingDetails(contacts[i], contacts)) ;
                         Console.WriteLine("Name is available in database");
                         break;
 
@@ -178,7 +204,7 @@
             Console.WriteLine("Do you want to create new AddressBook press 1 for yes or 2 for no:");
             int num = Convert.ToInt32(Console.ReadLine());
 
-            
+
             while (num == 1)
             {
                 Console.WriteLine("Please enter a name of addressbook:");
@@ -201,8 +227,8 @@
             }
         }
 
-        
-        
+
+
         public static Dictionary<string, List<Contact>> addressBookSystem = new Dictionary<string, List<Contact>>();
         public static void Main(string[] args)
         {
@@ -210,6 +236,7 @@
 
             CreateAddresBook();
             DisplayDictionary();
+            SearchByCityOrState();
             //DisplayContacts();
             //EditContacts();
             //DeleteContacts();            
