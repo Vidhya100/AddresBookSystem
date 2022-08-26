@@ -3,35 +3,42 @@
     class Program
     {
         
-        public static void FillingDetails(Contact contacts)
+        public static bool FillingDetails(Contact contact,List<Contact> contacts )
         {
-
             Console.WriteLine("Enter first name: ");
-            contacts.firstName = Console.ReadLine();
+            string tempFirstname = Console.ReadLine();
+
+
+            if (CheckDuplicate(contacts, tempFirstname))
+            {
+                return false;
+            }
+            contact.firstName = tempFirstname;
 
             Console.WriteLine("Enter last name: ");
-            contacts.lastName = Console.ReadLine();
+            contact.lastName = Console.ReadLine();
 
             Console.WriteLine("Enter address: ");
-            contacts.address = Console.ReadLine();
+            contact.address = Console.ReadLine();
 
             Console.WriteLine("Enter city: ");
-            contacts.city = Console.ReadLine();
+            contact.city = Console.ReadLine();
 
             Console.WriteLine("Enter state: ");
-            contacts.state = Console.ReadLine();
+            contact.state = Console.ReadLine();
 
             Console.WriteLine("Enter phone: ");
-            contacts.phone = Convert.ToInt32(Console.ReadLine());
+            contact.phone = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine("Enter email: ");
-            contacts.email = Console.ReadLine();
+            contact.email = Console.ReadLine();
 
             Console.WriteLine("Enter zipcode: ");
-            contacts.zipcode = Convert.ToInt32(Console.ReadLine());
+            contact.zipcode = Convert.ToInt32(Console.ReadLine());
+            return true;
         }
 
-        public static void CreatingContacts(List<Contact> contacts, string firstName)
+        public static void CreatingContacts(List<Contact> contacts)
         {
             Console.WriteLine("Do you want to add new contact press 1 or press 2 to cancle.");
             int num = Convert.ToInt32(Console.ReadLine());
@@ -40,26 +47,34 @@
             while (num == 1)
             {
                 Contact contact = new Contact();
-                bool duplicate = equals(contacts, firstName);
-                if(!duplicate)
-                {
-                    FillingDetails(contact);
-                    contacts.Add(contact);
-                }
-                else
-                    Console.WriteLine("Contact already available in system");
-
+                
+                if(FillingDetails(contact, contacts))
+                  contacts.Add(contact);
 
                 Console.WriteLine("Do you want to add anoter contact then press 1 or press 2 for exit ");
                 num = Convert.ToInt32(Console.ReadLine());
-                
-
             }
             Console.WriteLine("=============================================================");
             Console.WriteLine("Total number of contact in address book:" + contacts.Count);
-            
         }
 
+        public static bool CheckDuplicate(List<Contact> contacts, string firstName)
+        {
+
+            //Any will check for duplicate same firstnamename in database
+            if (contacts.Count > 0)
+            {
+                
+                if (contacts.Any(x => x.firstName.Equals(firstName)))
+                {
+                    Console.WriteLine("Already exist in database");
+                    return true;
+                }
+                
+
+            }
+            return false;
+        }
         public static void DisplayContacts(List<Contact> contacts)
         {
             //print contacts
@@ -92,7 +107,8 @@
                         found = true;  //found the contact
 
                         //now editing...
-                        FillingDetails(contacts[i]);
+                        if(!FillingDetails(contacts[i], contacts));
+                        Console.WriteLine("Name is available in database");
                         break;
 
                     }
@@ -103,18 +119,8 @@
                 DisplayContacts(contacts);
                 Console.WriteLine("Do you want to edit contact press 1 to edit or press 2 to cancle.");
                 num = Convert.ToInt32(Console.ReadLine());
-                equals(contacts,firstName);
             }//while loop end
 
-        }
-
-        public static bool equals(List<Contact> contacts, string firstname)
-        {
-            if (contacts.Any(x => x.firstName == firstname))
-                return true;
-            else
-                return false;
-            
         }
 
         public static void DeleteContacts(List<Contact> contacts)
@@ -181,7 +187,7 @@
                 List<Contact> addressBook = new List<Contact>();
                 addressBookSystem.Add(name, addressBook);
 
-                CreatingContacts(addressBook,name);
+                CreatingContacts(addressBook);
 
                 if (addressBook.Count > 0)
                 {
@@ -196,13 +202,13 @@
         }
 
         
+        
         public static Dictionary<string, List<Contact>> addressBookSystem = new Dictionary<string, List<Contact>>();
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Address Book Sytem.");
-            
+
             CreateAddresBook();
-            
             DisplayDictionary();
             //DisplayContacts();
             //EditContacts();
