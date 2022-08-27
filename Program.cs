@@ -1,9 +1,51 @@
 ﻿using System.Collections;
-
+using System.Globalization;
+using CsvHelper;
 namespace AddressBookSystem
 {
     class Program
     {
+        public static void WriteToCsvFile()
+        {
+            string path = @"..\..\..\Contact.csv";
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                CsvWriter cw = new CsvWriter(sw, CultureInfo.InvariantCulture);
+                Console.WriteLine("Creating and writing into Contact CSV file");
+                //While writing Contact first row is always property Names then all values of list
+                foreach (var book in addressBookSystem.Values)
+                {
+                    cw.WriteRecords<Contact>(book);
+                }
+                Console.WriteLine("Done writing");
+            }
+        }
+
+        public static void ReadCsvFile()
+        {
+            string path = @"..\..\..\Contact.csv";
+            if (File.Exists(path))
+            {
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    CsvReader cr = new CsvReader(sr, CultureInfo.InvariantCulture);
+                    
+                    //while reading file first row should be property names rest rows should be values to create objects
+                    List<Contact> readResult = cr.GetRecords<Contact>().ToList();
+                    Console.WriteLine("Reading from Contact CSV file");
+
+                    //displaying read object
+                    foreach (var item in readResult)
+                    {
+                        Console.WriteLine(item.ToString());
+                    }
+                }
+               
+            }
+            else
+                Console.WriteLine("Contact.csv file doenot exists");
+        }
+
         //uc13
         public static void WriteToFile()
         {
@@ -405,7 +447,9 @@ namespace AddressBookSystem
                 //FilterByCityAndState();
                 //ShowCountofContactsbyCityandState();
                 //SortByName();
-                WriteToFile();
+                // WriteToFile();
+                WriteToCsvFile();
+                ReadCsvFile();
             }
             catch (Exception ex)
             { 
