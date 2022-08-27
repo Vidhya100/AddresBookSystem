@@ -207,7 +207,7 @@ namespace AddressBookSystem
         {
             //print contacts
 
-            
+           
             Console.WriteLine("Current contacts in adress book:");
 
             foreach (Contact contact in contacts)
