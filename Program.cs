@@ -1,10 +1,41 @@
 ﻿using System.Collections;
 using System.Globalization;
 using CsvHelper;
+using Newtonsoft.Json;
+
 namespace AddressBookSystem
 {
     class Program
     {
+
+        public static void WriteToJsonFile()
+        {
+            string path = @"..\..\..\Contact.json";
+
+            foreach (var book in addressBookSystem.Values)
+            {
+                string jsonData = JsonConvert.SerializeObject(book);
+               
+                File.WriteAllText(path, jsonData);
+            }
+
+            Console.WriteLine("wrote contact jason file");
+        }
+        public static void ReadJsonFile()
+        {
+            string path = @"..\..\..\Contact.json";
+            string jsonData = File.ReadAllText(path);
+            if (jsonData != null || jsonData.Equals(String.Empty))
+            {
+                var jsonResult = JsonConvert.DeserializeObject<List<Contact>>(jsonData).ToList();
+                Console.WriteLine("Reading from Json file");
+                foreach (var item in jsonResult)
+                {
+                    Console.WriteLine(item.ToString());
+                }
+            }
+        }
+
         public static void WriteToCsvFile()
         {
             string path = @"..\..\..\Contact.csv";
@@ -416,6 +447,7 @@ namespace AddressBookSystem
                 addressBookSystem.Add(name, addressBook);
 
                 CreatingContacts(addressBook);
+
                 if (addressBook.Count > 0)
                 {
                     EditContacts(addressBook);
@@ -448,12 +480,15 @@ namespace AddressBookSystem
                 //ShowCountofContactsbyCityandState();
                 //SortByName();
                 // WriteToFile();
-                WriteToCsvFile();
-                ReadCsvFile();
+               // WriteToCsvFile();
+               // ReadCsvFile();
+                WriteToJsonFile();
+                ReadJsonFile();
+
             }
             catch (Exception ex)
             { 
-                Console.WriteLine(ex.ToString()); 
+                Console.WriteLine(ex.Message); 
             }
         }
     }
