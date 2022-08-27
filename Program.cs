@@ -4,19 +4,49 @@ namespace AddressBookSystem
 {
     class Program
     {
+        
+        public static void SortByName()
+        {
+            Console.WriteLine("Do you want to sort contact using firstname then press 1 or press 2 for exit ");
+            int num = Convert.ToInt32(Console.ReadLine());
+
+            List<Contact> sort = new List<Contact>();
+            foreach (var kv in addressBookSystem)
+            {
+                var list = kv.Value.OrderBy(x => x.firstName).ToList();
+                sort.AddRange(list);
+            }
+            DisplayContactsByName(sort);
+
+            Console.WriteLine("===============================");
+        }
+        public static void DisplayContactsByName(List<Contact> sort)
+        {
+            //print contacts
+
+            
+            Console.WriteLine("Current contacts in adress book:");
+
+            foreach (Contact contact in sort)
+            {
+                Console.WriteLine(contact.firstName);
+            }
+            Console.WriteLine("=============================================================");
+
+        }
         public static void ShowCountofContactsbyCityandState()
         {
             Console.WriteLine("Enter city name to show counts in that city");
             string icity = Console.ReadLine();
 
-            if(cityDict.ContainsKey(icity))
-                Console.WriteLine("number of contacts in city {0} are {1}",icity, cityDict[icity].Count);
+            if (cityDict.ContainsKey(icity))
+                Console.WriteLine("number of contacts in city {0} are {1}", icity, cityDict[icity].Count);
             else
-                Console.WriteLine("number of contacts in city {0} are zero",icity);
+                Console.WriteLine("number of contacts in city {0} are zero", icity);
 
 
             Console.WriteLine("Enter state name to show counts in that state");
-             icity = Console.ReadLine();
+            icity = Console.ReadLine();
 
             if (stateDict.ContainsKey(icity))
                 Console.WriteLine("number of contacts in state {0} are {1}", icity, stateDict[icity].Count);
@@ -26,18 +56,18 @@ namespace AddressBookSystem
         }
         public static void FilterByCityAndState()
         {
-            
+
             foreach (var kv in addressBookSystem)
             {
-                foreach(Contact contact in kv.Value)
+                foreach (Contact contact in kv.Value)
                 {
                     // City filtering
 
                     //check city is added into city dictionary?
-                    if(cityDict.ContainsKey(contact.city))
+                    if (cityDict.ContainsKey(contact.city))
                     {
-                       //add contact entry into exiting key- value (city-contacts) list
-                       cityDict[contact.city].Add(contact);
+                        //add contact entry into exiting key- value (city-contacts) list
+                        cityDict[contact.city].Add(contact);
 
                     }
                     else
@@ -49,7 +79,7 @@ namespace AddressBookSystem
                     }
 
                     //state filtering
-                    
+
                     //check state is added into state dictionary?
                     if (stateDict.ContainsKey(contact.state))
                     {
@@ -72,7 +102,7 @@ namespace AddressBookSystem
         }
 
 
-        
+
 
         public static void SearchByCityOrState()
         {
@@ -177,7 +207,7 @@ namespace AddressBookSystem
         {
             //print contacts
 
-            Console.WriteLine("=============================================================");
+            
             Console.WriteLine("Current contacts in adress book:");
 
             foreach (Contact contact in contacts)
@@ -261,7 +291,7 @@ namespace AddressBookSystem
             }//while end
         }
 
-        public static void DisplayDictionary(Dictionary<string,List<Contact>> dict)
+        public static void DisplayDictionary(Dictionary<string, List<Contact>> dict)
         {
             Console.WriteLine("Diplay current data in dictionary: ");
             foreach (KeyValuePair<string, List<Contact>> obj in dict)
@@ -286,15 +316,14 @@ namespace AddressBookSystem
                 addressBookSystem.Add(name, addressBook);
 
                 CreatingContacts(addressBook);
-                /*
                 if (addressBook.Count > 0)
                 {
                     EditContacts(addressBook);
                     DeleteContacts(addressBook);
                 }
-                
+
                 DisplayDictionary(addressBookSystem);
-                */
+
                 Console.WriteLine("Do you want to create another addressbook press 1 or press 2 for exit:");
                 num = Convert.ToInt32(Console.ReadLine());
             }
@@ -303,8 +332,8 @@ namespace AddressBookSystem
 
 
         public static Dictionary<string, List<Contact>> addressBookSystem = new Dictionary<string, List<Contact>>();
-       public static Dictionary<String, List<Contact>> cityDict = new Dictionary<string, List<Contact>>();
-       public static Dictionary<String, List<Contact>> stateDict = new Dictionary<string, List<Contact>>();
+        public static Dictionary<String, List<Contact>> cityDict = new Dictionary<string, List<Contact>>();
+        public static Dictionary<String, List<Contact>> stateDict = new Dictionary<string, List<Contact>>();
 
         public static void Main(string[] args)
         {
@@ -312,9 +341,10 @@ namespace AddressBookSystem
 
             CreateAddresBook();
             DisplayDictionary(addressBookSystem);
-            //SearchByCityOrState();
-            FilterByCityAndState();
-            ShowCountofContactsbyCityandState();
+           // SearchByCityOrState();
+            //FilterByCityAndState();
+           // ShowCountofContactsbyCityandState();
+            SortByName();
             //DisplayContacts();
             //EditContacts();
             //DeleteContacts();            
