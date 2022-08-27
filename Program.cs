@@ -4,6 +4,20 @@ namespace AddressBookSystem
 {
     class Program
     {
+        //uc13
+        public static void WriteToFile()
+        {
+            string path = @"..\..\..\Contact.txt";
+
+            using (StreamWriter sw = File.CreateText(path))
+            {
+                foreach (var kv in addressBookSystem)
+                {
+                    foreach(var contact in kv.Value)
+                        sw.WriteLine(contact.ToString());
+                }
+            }
+        }
         public static void SortByCityAndStateOrZip()
         {
             Console.WriteLine("Do you want to sort contact then press 1 for yes and 2 for no ");
@@ -150,9 +164,6 @@ namespace AddressBookSystem
 
         }
 
-
-
-
         public static void SearchByCityOrState()
         {
 
@@ -160,8 +171,6 @@ namespace AddressBookSystem
             int num = Convert.ToInt32(Console.ReadLine());
             while (num == 1)
             {
-
-
                 List<Contact> tempcontacts = new List<Contact>();
                 Console.WriteLine("Enter the city or state to search :");
                 string iCity = Console.ReadLine();
@@ -387,16 +396,21 @@ namespace AddressBookSystem
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Address Book Sytem.");
-
-            CreateAddresBook();
-            DisplayDictionary(addressBookSystem);
-           // SearchByCityOrState();
-            //FilterByCityAndState();
-           // ShowCountofContactsbyCityandState();
-            SortByName();
-            //DisplayContacts();
-            //EditContacts();
-            //DeleteContacts();            
+            try
+            {
+                CreateAddresBook();
+                DisplayDictionary(addressBookSystem);
+                //DisplayContacts();
+                //SearchByCityOrState();
+                //FilterByCityAndState();
+                //ShowCountofContactsbyCityandState();
+                //SortByName();
+                WriteToFile();
+            }
+            catch (Exception ex)
+            { 
+                Console.WriteLine(ex.ToString()); 
+            }
         }
     }
 }
