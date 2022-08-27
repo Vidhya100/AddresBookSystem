@@ -4,7 +4,56 @@ namespace AddressBookSystem
 {
     class Program
     {
-        
+        public static void SortByCityAndStateOrZip()
+        {
+            Console.WriteLine("Do you want to sort contact then press 1 for yes and 2 for no ");
+            int num1 = Convert.ToInt32(Console.ReadLine());
+            while (num1 == 1)
+            {
+                Console.WriteLine("Press following keys for sort : ");
+                Console.WriteLine("press 1 for City: ");
+                Console.WriteLine("press 2 for State");
+                Console.WriteLine("press 3 for Zipcode: ");
+                Console.WriteLine("press any key for Exit");
+
+                int num = Convert.ToInt32(Console.ReadLine());
+                List<Contact> sort = new List<Contact>();
+                switch (num)
+                {
+                    case 1:
+                        foreach (var kv in addressBookSystem)
+                        {
+                            var list = kv.Value.OrderBy(x => x.city).ToList();
+                            sort.AddRange(list);
+                        }
+                        DisplayContactsByName(sort);
+
+                        Console.WriteLine("===============================");
+                        break;
+                    case 2:
+                        foreach (var kv in addressBookSystem)
+                        {
+                            var list = kv.Value.OrderBy(x => x.state).ToList();
+                            sort.AddRange(list);
+                        }
+                        DisplayContactsByName(sort);
+
+                        Console.WriteLine("===============================");
+                        break;
+                    case 3:
+                        foreach (var kv in addressBookSystem)
+                        {
+                            var list = kv.Value.OrderBy(x => x.zipcode).ToList();
+                            sort.AddRange(list);
+                        }
+                        DisplayContactsByName(sort);
+
+                        Console.WriteLine("===============================");
+                        break;
+
+                }
+            }            
+        }
         public static void SortByName()
         {
             Console.WriteLine("Do you want to sort contact using firstname then press 1 or press 2 for exit ");
